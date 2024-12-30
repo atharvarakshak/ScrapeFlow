@@ -18,7 +18,6 @@ model Workflow{
     id String @id @default(cuid())
     userId String
     name String
-
     description String?
     definition String
     status String

@@ -19,15 +19,16 @@ import {
 import NodeComponent from "./nodes/NodeComponent";
 import { useCallback, useEffect } from "react";
 import { AppNode } from "@/types/appNode";
-// import DeletableEdge from "./edges/DeletableEdge";
+import DeletableEdge from "./edges/DeletableEdge";
 import { TaskRegistry } from "@/lib/workfow/task/registry";
+import { toast } from "sonner";
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,
 };
-// const edgeTypes = {
-//   default: DeletableEdge,
-// };
+const edgeTypes = {
+  default: DeletableEdge,
+};
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
 function FlowEditor({ workflow }: { workflow: Workflow }) {
@@ -69,6 +70,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
     [screenToFlowPosition, setNodes]
   );
 
+  // actions to be performed when connections are made
   const onConnect = useCallback(
     (connection: Connection) => {
       setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
@@ -86,6 +88,8 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
     },
     [setEdges, updateNodeData, nodes]
   );
+
+  // to restrict connection between inputs and outputs of smae type 
   const isValidConnection = useCallback(
     (connection: Edge | Connection) => {
       // No self-connection allowed
@@ -110,9 +114,12 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
         (o) => o.name === connection.targetHandle
       );
       if (input?.type !== output?.type) {
+        toast.error("Invalid connection")
         console.error("invalid connection: type mismatch");
         return false;
       }
+
+      // prevent cycles
       const hasCycle = (node: AppNode, visited = new Set()) => {
         if (visited.has(node.id)) return false;
         visited.add(node.id);
@@ -140,9 +147,9 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
         fitViewOptions={fitViewOptions}
         onDragOver={onDragOver}
         onDrop={onDrop}
-        // onConnect={onConnect}
-        // edgeTypes={edgeTypes}
-        // isValidConnection={isValidConnection}
+        onConnect={onConnect}
+        edgeTypes={edgeTypes}
+        isValidConnection={isValidConnection}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Cross} gap={12} size={3} />

@@ -12,7 +12,9 @@ const StringParam = ({
   disabled,
 }: ParamProps) => {
   const [internalValue, setInternalValue] = useState(value);
+
   const id = useId();
+
   useEffect(() => {
     setInternalValue(value);
   }, [value]);
@@ -24,7 +26,7 @@ const StringParam = ({
 
   return (
     <div className="space-y-1 p-1 w-full">
-      <Label htmlFor={id}>
+      <Label htmlFor={id} className="flex items-center">
         {param.name}
         {param.required && <p className="text-red-400 px-2">*</p>}
       </Label>
