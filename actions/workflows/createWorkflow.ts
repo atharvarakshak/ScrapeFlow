@@ -28,11 +28,13 @@ export async function createWorkflow(form: createWorkflowSchemaType) {
     edges: [],
   };
   initialFlow.nodes.push(CreateFlowNode(TaskType.LAUNCH_BROWSER));
+
+  
   const result = await prisma.workflow.create({
     data: {
       userId,
       status: WorkflowStatus.DRAFT,
-      definition: "TODO",
+      definition: JSON.stringify(initialFlow),
       ...data,
     },
   });

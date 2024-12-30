@@ -16,15 +16,15 @@ import {
   Edge,
   getOutgoers,
 } from "@xyflow/react";
-// import NodeComponent from "./nodes/NodeComponent";
+import NodeComponent from "./nodes/NodeComponent";
 import { useCallback, useEffect } from "react";
 import { AppNode } from "@/types/appNode";
 // import DeletableEdge from "./edges/DeletableEdge";
 import { TaskRegistry } from "@/lib/workfow/task/registry";
 
-// const nodeTypes = {
-//   FlowReoNode: NodeComponent,
-// };
+const nodeTypes = {
+  FlowScrapeNode: NodeComponent,
+};
 // const edgeTypes = {
 //   default: DeletableEdge,
 // };
@@ -32,6 +32,9 @@ const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 1 };
 function FlowEditor({ workflow }: { workflow: Workflow }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
+  // const [nodes, setNodes, onNodesChange] = useNodesState([
+  //   CreateFlowNode(TaskType.LAUNCH_BROWSER)
+  // ]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const { setViewport, screenToFlowPosition, updateNodeData } = useReactFlow();
   useEffect(() => {
@@ -130,16 +133,16 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
         edges={edges}
         onEdgesChange={onEdgesChange}
         onNodesChange={onNodesChange}
-        // nodeTypes={nodeTypes}
+        nodeTypes={nodeTypes}
         snapToGrid
         snapGrid={snapGrid}
         fitView
         fitViewOptions={fitViewOptions}
         onDragOver={onDragOver}
         onDrop={onDrop}
-        onConnect={onConnect}
+        // onConnect={onConnect}
         // edgeTypes={edgeTypes}
-        isValidConnection={isValidConnection}
+        // isValidConnection={isValidConnection}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Cross} gap={12} size={3} />

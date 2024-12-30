@@ -1,3 +1,4 @@
+"use client";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { TaskRegistry } from '@/lib/workfow/task/registry'
