@@ -1,18 +1,21 @@
-// import useExecutionPlan from '@/components/hooks/useExecutionPlan'
+"use client";
+import useExecutionPlan from '@/hooks/useExecutionPlan'
 import { Button } from '@/components/ui/button'
 import { PlayIcon } from 'lucide-react'
 import React from 'react'
+import toast from 'react-hot-toast';
 
 const ExecuteBtn = ({workflowId}:{workflowId:string}) => {
-// const generate = useExecutionPlan()
+const generate = useExecutionPlan()
   return (
     <Button
      variant={'outline'}
     className='flex items-center gap-2'
     onClick={()=>{
-    //   const plan = generate();
+      const plan = generate();
       console.log("---plan---");
-    //   console.table(plan)
+      console.table(plan)
+ 
     }}>
         <PlayIcon size={16} className='stroke-orange-400'/>
     Execute

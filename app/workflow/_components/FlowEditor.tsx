@@ -21,7 +21,7 @@ import { useCallback, useEffect } from "react";
 import { AppNode } from "@/types/appNode";
 import DeletableEdge from "./edges/DeletableEdge";
 import { TaskRegistry } from "@/lib/workfow/task/registry";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,

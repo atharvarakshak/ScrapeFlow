@@ -7,9 +7,9 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton
-} from '@clerk/nextjs'
-import { Toaster } from "@/components/ui/toaster";
+  UserButton,
+} from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,18 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider afterSignOutUrl={'/sign-in'} appearance={{
-      elements: {
-        formerButtonPrimary:"bg-primary hover:bg-primary/90 text-sm !shadow-none"
-      }
-    }} >
-
-    <html lang="en">
-      <body className={inter.className}>
-        <AppProviders>{children}</AppProviders>
-      </body>
-      <Toaster />
-    </html>
+    <ClerkProvider
+      afterSignOutUrl={"/sign-in"}
+      appearance={{
+        elements: {
+          formerButtonPrimary:
+            "bg-primary hover:bg-primary/90 text-sm !shadow-none",
+        },
+      }}
+    >
+      <html lang="en">
+        <body className={inter.className}>
+          <AppProviders>{children}</AppProviders>
+          <Toaster position="bottom-right" reverseOrder={false} />
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useReactFlow } from "@xyflow/react";
 import { CheckIcon } from "lucide-react";
 import React from "react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const SaveBtn = ({ workflowId }: { workflowId: string }) => {
   const { toObject } = useReactFlow();

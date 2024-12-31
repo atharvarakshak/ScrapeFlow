@@ -10,6 +10,7 @@ import { NodeOutputs } from "./Outputs/NodeOutputs";
 import { NodeOutput } from "./Outputs/NodeOutput";
 import { Badge } from "@/components/ui/badge";
 
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";
 const NodeComponent = memo((props: NodeProps) => {
   const nodeData = props.data as AppNodeData;
   const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";

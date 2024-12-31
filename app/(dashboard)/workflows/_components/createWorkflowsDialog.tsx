@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { createWorkflowSchemaType } from "@/schema/workflow";
 import { createWorkflow } from "@/actions/workflows/createWorkflow";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
   const [open, setOpen] = useState(false);

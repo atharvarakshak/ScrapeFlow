@@ -1,16 +1,17 @@
 "use client";
-import { Workflow } from '@prisma/client';
-import { ReactFlowProvider } from '@xyflow/react';
-import React from 'react'
+import { Workflow } from "@prisma/client";
+import { ReactFlowProvider } from "@xyflow/react";
+import React from "react";
 import Topbar from "./topbar/Topbar";
 import TaskMenu from "./TaskMenu";
-import FlowEditor from './FlowEditor';
+import FlowEditor from "./FlowEditor";
+import { FlowValidationContextProvider } from "@/components/context/FlowValidationContext";
 
-function Editor({workflow}:{workflow:Workflow}) {
-
+function Editor({ workflow }: { workflow: Workflow }) {
   return (
-    <ReactFlowProvider >
-         <div className="flex flex-col h-full w-full overflow-hidden">
+    <FlowValidationContextProvider>
+      <ReactFlowProvider>
+        <div className="flex flex-col h-full w-full overflow-hidden">
           <Topbar
             title="Workflow Editor"
             subtitle={workflow.name}
@@ -21,8 +22,9 @@ function Editor({workflow}:{workflow:Workflow}) {
             <FlowEditor workflow={workflow} />
           </section>
         </div>
-    </ReactFlowProvider>
-  )
+      </ReactFlowProvider>
+    </FlowValidationContextProvider>
+  );
 }
 
-export default Editor
+export default Editor;

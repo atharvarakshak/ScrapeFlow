@@ -99,3 +99,7 @@
     @apply !bg-accent;
   }
 }
+
+.react-hot-toast {
+  z-index: 9999 !important;
+}

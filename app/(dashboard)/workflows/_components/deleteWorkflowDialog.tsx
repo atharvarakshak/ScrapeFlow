@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 interface Props {
   open: boolean;
