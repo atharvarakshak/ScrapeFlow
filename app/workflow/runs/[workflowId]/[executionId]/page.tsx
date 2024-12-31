@@ -52,7 +52,7 @@ async function ExecutionViewrWrapper({ executionId }: { executionId: string }) {
 
 
   return <>
-    <ExecutionViewer/>
+    <ExecutionViewer initialData={workflowExecution}/>
   </>
 
 }
