@@ -40,6 +40,7 @@ model WorkflowExecution {
   createdAt   DateTime  @default(now())
   startedAt   DateTime?
   completedAt DateTime?
+  creditsConsumed Int @default(0) 
 
   phases   ExecutionPhase[]
   workflow Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
