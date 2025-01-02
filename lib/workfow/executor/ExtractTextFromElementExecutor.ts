@@ -12,7 +12,7 @@ export async function ExtractTextFromElementExecutor(
     const selector = environment.getInput("Selector");
     if(!selector){
       environment.log.error("Selector not defined");
-      environment.log.success("Selector not provided");
+      environment.log.info("Selector not provided");
       return false;
     }
 
