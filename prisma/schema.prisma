@@ -19,6 +19,8 @@ model Workflow {
   name          String
   description   String?
   definition    String
+  executionPlan String?
+  creditsCost   Int       @default(0)
   status        String //DRAFT | PUBLISHED
   lastRunAt     DateTime?
   lastRunId     String?
@@ -75,4 +77,20 @@ model ExecutionLog {
   executionPhaseId String
 
   executionPhase ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
+}
+
+model UserBalance {
+  userId  String @id
+  credits Int    @default(0)
+}
+
+
+model Credential{
+  id String @id @default(cuid())
+  userId String
+  name String
+  value String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, name])  
 }

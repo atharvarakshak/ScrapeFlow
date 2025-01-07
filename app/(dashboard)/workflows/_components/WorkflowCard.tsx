@@ -6,6 +6,7 @@ import { Workflow } from "@prisma/client";
 import { FileTextIcon, PlayIcon, ShuffleIcon } from "lucide-react";
 import Link from "next/link";
 import { WorkflowActions } from "./workflowActions";
+import RunBtn from "./RunBtn";
 
 const statusColors = {
   [WorkflowStatus.DRAFT]: "bg-pink-400 text-pink-600",
@@ -49,6 +50,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          {!isDraft && <RunBtn workflowId={workflow.id} />}
           <Link
             href={`/workflow/editor/${workflow.id}`}
             className={cn(

@@ -40,12 +40,13 @@ import {
 } from "lucide-react";
 import React, { ReactNode, useEffect, useState } from "react";
 import PhaseStatusBadge from "./PhaseStatusBadge";
+import ReactCountupWrapper from "@/components/ReactCountupWrapper";
 
 type ExecutionType = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 function ExecutionViewer({ initialData }: { initialData: ExecutionType }) {
   const [selectedPhase, setSelectedPhase] = useState<string | null>(null);
   const query = useQuery({
-    queryKey: ["execution", initialData?.id],
+    queryKey: ["execution", initialData?.id], 
     initialData,
     queryFn: () => GetWorkflowExecutionWithPhases(initialData!.id),
     refetchInterval: (q) =>
@@ -53,7 +54,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionType }) {
   });
 
   const phaseDetails = useQuery({
-    queryKey: ["phaseDetails", selectedPhase],
+    queryKey: ["phaseDetails", selectedPhase, query.data?.status],
     enabled: selectedPhase !== null,
     queryFn: () => GetWorkflowPhaseDetails(selectedPhase!),
   });
@@ -93,7 +94,12 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionType }) {
           <ExecutionLabel
             icon={CircleDashedIcon}
             label="Status"
-            value={query.data?.status}
+            value={
+              <div className="font-semibold capitalize flex gap-2 items-center">
+                <PhaseStatusBadge status={query.data?.status as ExecutionPhaseStatus}/>
+                <span>{query.data?.status}</span>
+              </div>
+            }
           />
           <ExecutionLabel
             icon={CalendarIcon}
@@ -122,7 +128,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionType }) {
           <ExecutionLabel
             icon={CoinsIcon}
             label="Credits consumed"
-            value={creditsConsumed}
+            value={<ReactCountupWrapper value={creditsConsumed}/>}
           />
         </div>
         <Separator />
@@ -178,7 +184,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionType }) {
                     <CoinsIcon size={20} className="stroke-muted-foreground" />
                     <span>credits</span>
                   </div>
-                  <span>TODO</span>
+                  <span>{phaseDetails.data.creditsConsumed}</span>
                 </Badge>
                 <Badge variant="outline" className="space-x-4">
                   <div className="flex gap-1 items-center">

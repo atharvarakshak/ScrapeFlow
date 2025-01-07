@@ -18,10 +18,11 @@ export async function LaunchBrowserExecutor(
 
     environment.setBrowser(browser);
     const page = await browser.newPage();
+    page.setViewport({ width: 2560, height: 1440 });
     await page.goto(websiteUrl);
     environment.setPage(page);
     environment.log.info(`Opened page : ${websiteUrl}`)
-
+    await waitFor(3000)
     return true;
   }
   catch (error: any) {
