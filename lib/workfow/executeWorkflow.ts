@@ -19,7 +19,7 @@ import { LogCollector } from "@/types/log";
 import { createLogCollector } from "../log";
 import { auth } from "@clerk/nextjs/server";
 
-export async function ExecuteWorkflow(executionId: string) {
+export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
   const execution = await prisma.workflowExecution.findUnique({
     where: {
       id: executionId,
@@ -41,7 +41,11 @@ export async function ExecuteWorkflow(executionId: string) {
 
   // initialize workflow execution
 
-  await initializeWorkflowExecution(executionId, execution.workflowId);
+  await initializeWorkflowExecution(
+    executionId,
+    execution.workflowId,
+    nextRunAt
+  );
 
   // initialize phases execution
   await initializePhaseStatuses(execution);
@@ -52,8 +56,6 @@ export async function ExecuteWorkflow(executionId: string) {
   for (const phase of execution.phases) {
     // credits consumed
 
-
-
     //execute phase
     const phaseExecution = await executeWorkflowPhase(
       phase,
@@ -62,7 +64,7 @@ export async function ExecuteWorkflow(executionId: string) {
       execution.userId
     );
 
-    creditsConsumed = creditsConsumed +   phaseExecution.creditsConsumed;
+    creditsConsumed = creditsConsumed + phaseExecution.creditsConsumed;
     if (!phaseExecution.success) {
       executionFailed = true;
       break;
@@ -84,7 +86,8 @@ export async function ExecuteWorkflow(executionId: string) {
 
 async function initializeWorkflowExecution(
   executionId: string,
-  workflowId: string
+  workflowId: string,
+  nextRunAt?: Date
 ) {
   //initialize workflow execution
 
@@ -106,6 +109,7 @@ async function initializeWorkflowExecution(
       lastRunAt: new Date(),
       lastRunStatus: WorkflowExecutionStatus.RUNNING,
       lastRunId: executionId,
+      ...(nextRunAt && {nextRunAt}),
     },
   });
 }
@@ -163,7 +167,7 @@ async function executeWorkflowPhase(
   phase: ExecutionPhase,
   environment: Environment,
   edges: Edge[],
-  userId:string
+  userId: string
 ) {
   const logCollector = createLogCollector();
   const startedAt = new Date();
@@ -188,18 +192,23 @@ async function executeWorkflowPhase(
 
   // console.log(`executing phase ${phase.name} with credits ${creditsRequired}`);
 
- 
   // TODO: DECREMENT CREDITS
-    let success = await decrementCredits(userId,creditsRequired,logCollector);
-    const creditsConsumed = success ? creditsRequired:0;
-    if(success){
-      // we can execute the phase if credits are sufficient
-       success = await executePhase(node, phase, environment, logCollector);
-    }
+  let success = await decrementCredits(userId, creditsRequired, logCollector);
+  const creditsConsumed = success ? creditsRequired : 0;
+  if (success) {
+    // we can execute the phase if credits are sufficient
+    success = await executePhase(node, phase, environment, logCollector);
+  }
   const outputs = environment.phases[node.id].outputs;
 
-  await finalizePhase(phase.id, success, outputs, logCollector,creditsConsumed);
-  return { success,creditsConsumed };
+  await finalizePhase(
+    phase.id,
+    success,
+    outputs,
+    logCollector,
+    creditsConsumed
+  );
+  return { success, creditsConsumed };
 }
 
 async function finalizePhase(
@@ -207,7 +216,7 @@ async function finalizePhase(
   success: boolean,
   outputs: any,
   logCollector: LogCollector,
-  creditsConsumed:number
+  creditsConsumed: number
 ) {
   const finalStatus = success
     ? ExecutionPhaseStatus.COMPLETED
@@ -319,7 +328,11 @@ async function cleanupEnvironment(environment: Environment) {
   }
 }
 
-async function decrementCredits(userId: string, amount: number,logCollector:LogCollector) {
+async function decrementCredits(
+  userId: string,
+  amount: number,
+  logCollector: LogCollector
+) {
   try {
     await prisma.userBalance.update({
       where: {
@@ -331,9 +344,7 @@ async function decrementCredits(userId: string, amount: number,logCollector:LogC
       },
     });
     return true;
-  }
-  catch(e){
-    
+  } catch (e) {
     logCollector.error("insufficient balance");
     return false;
   }

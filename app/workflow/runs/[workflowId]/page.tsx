@@ -34,7 +34,7 @@ async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
  
   const executions = await GetWorkflowExecutions(workflowId);
   if (!executions) {
-    <div>No data</div>;
+    <div>No data</div>
   }
   if(executions.length === 0){
     return <div className="py-6 ">
@@ -50,5 +50,11 @@ async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
     </div>
   }
 
-  return <ExecutionTable workflowId={workflowId} initialData={executions}/>;
+  return(
+
+    <div className="py-6 container w-full">
+    
+    <ExecutionTable workflowId={workflowId} initialData={executions}/>;
+  </div>
+  )
 }
