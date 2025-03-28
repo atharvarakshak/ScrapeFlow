@@ -83,36 +83,36 @@ export async function ExtractDataWithAIExecutor(
     
     
     
-    
+  const { OpenAI } = require("openai");
 
-    // const body = {
-    //   prompt: messages,
-    // };
+  const apiKey = process.env.OPENAI_KEY;
 
-    // const url = `https://viresh.openai.azure.com/openai/deployments/Viresh-v2/chat/completions?api-version=2024-10-21`;
+  const openai = new OpenAI({ apiKey });
 
-    // const response = await fetch("https://viresh-v2.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2023-03-15-preview", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "api-key": "86fea170c65341bc9efa5b647e210f45",
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-    const model = "gpt-4o";
-    const apiKey = "86fea170c65341bc9efa5b647e210f45";
-    const openai = new OpenAI({
-      apiKey,
-      baseURL: `https://viresh-v2.openai.azure.com/openai/deployments/${model}`,
-      defaultQuery: { "api-version": "2023-12-01-preview" },
-      defaultHeaders: { "api-key": apiKey },
-    });
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages,
+    stream: false,
+  });
+ 
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      stream: false,
-      messages,
-    });
+
+
+      // const model = "gpt-4o";
+      // // const apiKey = "86fea170c65341bc9efa5b647e210f45";
+      // const apiKey = "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";
+      // const openai = new OpenAI({
+      //   apiKey,
+      //   baseURL: `https://viresh-v2.openai.azure.com/openai/deployments/${model}`,
+      //   defaultQuery: { "api-version": "2023-12-01-preview" },
+      //   defaultHeaders: { "api-key": apiKey },
+      // });
+
+      // const response = await openai.chat.completions.create({
+      //   model: "gpt-4o",
+      //   stream: false,
+      //   messages,
+      // });
 
     // const response = await openai.chat.completions.create({
     //   model: "gpt-4o-mini",
@@ -134,13 +134,14 @@ export async function ExtractDataWithAIExecutor(
     //   temperature: 1,
     // });
     // const result = await responseOllama.json();
+    console.log("response: ",response.choices[0].message?.content.slice(7, -3));
 
     environment.log.info(`Prompt tokens: ${response.usage?.prompt_tokens}`);
     environment.log.info( 
       `Completion tokens: ${response.usage?.completion_tokens}`
     );
 
-    const result = response.choices[0].message?.content;
+    const result = response.choices[0].message?.content.slice(7, -3);
 
     console.log("result", JSON.parse(result!));
 

@@ -26,13 +26,14 @@ export async function ExtractTextFromElementExecutor(
     }
 
     const $ = cheerio.load(html);
-
+    
     const element = $(selector);
 
     if(!element){
       environment.log.error("element not found");
       return false;
     }
+    console.log("asda: ",element);
     const extractedText = $.text(element);
     if(!extractedText){
       environment.log.error("element has no text");

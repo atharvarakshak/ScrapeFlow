@@ -35,3 +35,4 @@ export const symmetricDecrypt = (encrypted: string) => {
 
     return decrypted.toString();
 }
+
