@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🕸️ ScrapeFlow
 
-## Getting Started
+**ScrapeFlow** is a fully functional **no-code web scraping tool** designed to extract data from **dynamically loaded websites** with ease. Users can create custom scraping workflows using a **drag-and-drop UI**, enabling them to visually design interactions with web pages to reach and extract their desired content.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+* 🔧 **No-Code Interface** – Build custom scraping flows without writing a single line of code.
+* 🧠 **Drag-and-Drop UI** – Create flows by visually arranging steps like clicking, waiting, typing, and extracting.
+* 🌐 **Supports Dynamic Websites** – Built on top of a headless browser (Puppeteer), allowing interaction with modern JS-heavy sites.
+* 📦 **Export Data** – Download scraped data as CSV, JSON, or send it to an API.
+* 🗂️ **Project Management** – Save, edit, and run multiple scraping flows with ease.
+* 🔐 **Privacy Friendly** – Everything runs locally or within your own cloud environment.
+
+---
+
+## 🖼️ UI Overview
+
+* **Canvas**: Design your flow by adding nodes like `Navigate`, `Click`, `Wait`, `Extract`, etc.
+* **Node Config Panel**: Customize each step's behavior, CSS selectors, delay timings, and more.
+* **Flow Runner**: Preview and run your scraping process in real-time.
+
+---
+
+## 🏗️ How It Works
+
+1. **Start a New Flow** – Name your project and start adding steps.
+2. **Define Steps** – Use blocks like:
+
+   * `Navigate` to URL
+   * `Wait for Element`
+   * `Click Element`
+   * `Extract Text` or `Attribute`
+3. **Run and Preview** – Execute the flow in a sandboxed browser session.
+4. **Export Results** – Download or push the data where you need it.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend**: Next.js with React Flow
+* **Backend**: Next.js API routes (server functions)
+* **Headless Browser**: Puppeteer for flow execution
+* **Database**: Supabase (PostgreSQL + Auth + Storage)
+
+---
+
+## 📦 Installation (Local Development)
 
 ```bash
+# Clone the repository
+git clone https://github.com/atharvaraksahk/ScrapeFlow.git
+cd ScrapeFlow
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Make sure you have Puppeteer dependencies and a Supabase project set up. Configure your environment variables in a `.env.local` file.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 📄 Use Cases
 
-## Learn More
+ScrapeFlow is versatile and can be used in many scenarios:
 
-To learn more about Next.js, take a look at the following resources:
+* 🔍 **Market Research** – Extract product data, pricing, and availability.
+* 💼 **Job Listings** – Collect job postings across multiple platforms.
+* 🗞️ **News Aggregation** – Scrape headlines or full articles from dynamic news sites.
+* 📊 **Competitive Analysis** – Track competitors’ offerings and updates.
+* 📚 **Academic Research** – Gather structured data for analysis from online databases.
+* 🏠 **Real Estate** – Aggregate listings and filter by location, price, or features.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+We welcome contributions from developers, designers, and testers. Here's how you can get started:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/your-feature-name`)
+3. Commit your changes (`git commit -m 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature-name`)
+5. Create a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Feel free to open issues for bugs, ideas, or feature requests.
+
